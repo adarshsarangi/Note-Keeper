@@ -5,6 +5,8 @@ import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
   const [inputText, setInputText] = useState({ title: "", content: "" });
+  const [clicked, setClicked] = useState(false);
+
   function update(event) {
     props.addNotes(inputText);
     setInputText({ title: "", content: "" });
@@ -19,24 +21,30 @@ function CreateArea(props) {
       };
     });
   }
+
+  function show(){
+    setClicked(true);
+  }
   return (
     <div>
       <form onSubmit={update} className="create-note">
-        <input
+        {clicked?<input
           name="title"
           placeholder="Title"
           onChange={change}
           value={inputText.title}
-        />
+        />: null}
+        
         <textarea
+          onClick={show}
           name="content"
           placeholder="Take a note..."
-          rows="3"
+          rows={clicked?"3":"1"}
           onChange={change}
           value={inputText.content}
         />
          
-        <Zoom in={true}>
+        <Zoom in={clicked}>
             <Fab type="submit" aria-label="add"><AddIcon /></Fab>
         </Zoom>
       </form>
